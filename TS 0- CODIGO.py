@@ -10,18 +10,20 @@ import numpy as np
 from scipy import signal
 import matplotlib.pyplot as plt
 
-N = 1000     # Número de muestras
+
+N = 1000    # Número de muestras
 fs = N       # Frecuencia de muestreo
 T = 1 / fs   # Tiempo de muestreo
 df = fs / N  # Resolución espectral  
-dc = 0       #Desplazamiento vertical [V]  
-ph = 0       #FASE = Desplazamiento horizontal [rad]
+##dc = 0       #Desplazamiento vertical [V], funciona como valor medio 
+##ph = 0       #FASE = Desplazamiento horizontal [rad] ya lo define en la func como 0 pq no es muy usado
+## por defecto ya lo define como 0, lo mismo que Vmax y valor medio (dc)
 
 
 # Definicion funciónes seno
-def func_sen(Vmax=1, dc=dc, ff=1, ph=ph, nn=N, fs=fs):
+def func_sen( nn=N, fs=fs, Vmax=1, dc= 0, ff=1, ph= 0):
     
-    tt = np.arange(0, nn / fs, 1/fs ).reshape(nn,1) ## arange ( START, STOP, STEP)
+    tt = np.arange(0, nn / fs, T ).reshape(nn,1) ## arange ( START, STOP, STEP), T = 1/fs
     
     xx = Vmax * np.sin(2 * np.pi * ff * tt + ph).reshape(nn,1) + dc
     
@@ -55,7 +57,7 @@ plt.show()
 
 #%% BONUS 
 
-def func_square(Vmax=1, dc=dc, ph=ph, nn=N, fs=fs, ff=1, duty= 1/2):
+def func_square(fs=fs, nn=N, Vmax=1, dc=0, ph=0, ff=1, duty= 1/2):
     
     tt = np.arange(0, nn/fs, 1/fs).reshape(nn, 1)
     
@@ -65,7 +67,7 @@ def func_square(Vmax=1, dc=dc, ph=ph, nn=N, fs=fs, ff=1, duty= 1/2):
 
 
 
-def func_triang(Vmax=1, dc=dc, ph=ph, nn=N, ff=1, fs=fs, width=1):
+def func_triang(nn=N, fs=fs, ff=1, width=1, Vmax=1, dc=0, ph=0):
     
     tt = np.arange(0, nn/fs, 1/fs).reshape(nn, 1)
     
