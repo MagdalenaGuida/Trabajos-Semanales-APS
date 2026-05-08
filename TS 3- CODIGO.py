@@ -69,32 +69,32 @@ frecs2 = np.arange(10*N) * fs / (10*N)
 
 #%% GRAFICO: MODULO
 
-# plt.figure()
-# plt.plot(frecs[:N//2], 10* np.log(X1_fft[:N//2]**2) ,':', color = 'b', label='ff1= df')
-# plt.plot(frecs[:N//2], 10* np.log(X2_fft[:N//2]**2), ':', color = 'forestgreen', label = 'ff2= df + 1/4')
-# plt.plot(frecs[:N//2], 10* np.log(X3_fft[:N//2]**2), ':', color = 'red', label = 'ff3= df + 1/2')
-# plt.legend(loc = 'lower left')
-# plt.xlabel('Frecuencia [Hz]')
-# plt.ylabel('Potencia [dB]')
-# plt.title('Espectro de la señal')
-# plt.grid(True)
-# plt.show()
+plt.figure()
+plt.plot(frecs[:N//2], 10* np.log(X1_fft[:N//2]**2) ,':', color = 'b', label='ff1= df')
+plt.plot(frecs[:N//2], 10* np.log(X2_fft[:N//2]**2), ':', color = 'forestgreen', label = 'ff2= df + 1/4')
+plt.plot(frecs[:N//2], 10* np.log(X3_fft[:N//2]**2), ':', color = 'red', label = 'ff3= df + 1/2')
+plt.legend(loc = 'lower left')
+plt.xlabel('Frecuencia [Hz]')
+plt.ylabel('Potencia [dB]')
+plt.title('Espectro de la señal')
+plt.grid(True)
+plt.show()
 
-# plt.figure()
-# plt.plot(frecs[:N//2], 10* np.log(X1_fft[:N//2]**2) ,':', color = 'b', label='ff1= df')
-# plt.plot(frecs[:N//2], 10* np.log(X2_fft[:N//2]**2), ':', color = 'forestgreen', label = 'ff2= df + 1/4')
-# plt.plot(frecs[:N//2], 10* np.log(X3_fft[:N//2]**2), ':', color = 'red', label = 'ff3= df + 1/2')
-# plt.legend(loc = 'lower left')
-# plt.xlim(248,252)
-# plt.ylim(-22,-6)
-# plt.xlabel('Frecuencia [Hz]')
-# plt.ylabel('Potencia [dB]')
-# plt.title('Espectro de la señal [ZOOM]')
-# plt.grid(True)
+plt.figure()
+plt.plot(frecs[:N//2], 10* np.log(X1_fft[:N//2]**2) ,':', color = 'b', label='ff1= df')
+plt.plot(frecs[:N//2], 10* np.log(X2_fft[:N//2]**2), ':', color = 'forestgreen', label = 'ff2= df + 1/4')
+plt.plot(frecs[:N//2], 10* np.log(X3_fft[:N//2]**2), ':', color = 'red', label = 'ff3= df + 1/2')
+plt.legend(loc = 'lower left')
+plt.xlim(248,252)
+plt.ylim(-22,-6)
+plt.xlabel('Frecuencia [Hz]')
+plt.ylabel('Potencia [dB]')
+plt.title('Espectro de la señal [ZOOM]')
+plt.grid(True)
 
-# Ef1 = 1/N * np.sum(X1_fft**2) 
-# Ef2 = 1/N * np.sum(X2_fft**2) 
-# Ef3 = 1/N * np.sum(X3_fft**2) 
+Ef1 = 1/N * np.sum(X1_fft**2) 
+Ef2 = 1/N * np.sum(X2_fft**2) 
+Ef3 = 1/N * np.sum(X3_fft**2) 
 
 #%% GrAFICOS ZERO-PADDING 
 
@@ -138,7 +138,7 @@ plt.tight_layout(rect=[0, 0, 1, 0.96])
 
 #%% ESTADISTICA
 
-## PARSEVAL 
+# PARSEVAL 
 V1 = id_Parseval(xx)
 V2 = id_Parseval(xx2)
 V3 = id_Parseval(xx3)
@@ -154,70 +154,71 @@ print(f"Id de Parseval para señal 5= {V5z}")
 print(f"Id de Parseval para señal 6= {V6z}")
 
 
-# #%% BONUSSSS
+#%% BONUSSSS
 
-# # Definimos el rango de n para la entrada
-# n = np.arange(-10, 40)
+# Definimos el rango de n para la entrada
+n = np.arange(-10, 40)
 
-# # Función escalón
-# u = lambda x: np.heaviside(x, 1)
+# Función escalón
+u = lambda x: np.heaviside(x, 1)
 
-# W0 = 1
-# Ts = 1
+W0 = 1
+Ts = 1
 
-# # Entrada: x[n] = u[n+1] - u[n-2]
-# x1 = u(n+1) - u(n-2)
-# x2 = (1/2)**n * u(n)
-# x3 = np.cos(W0 * n * Ts)
+# Entrada: x[n] = u[n+1] - u[n-2]
+x1 = u(n+1) - u(n-2)
+x2 = (1/2)**n * u(n)
+x3 = np.cos(W0 * n * Ts)
 
 # # Definimos el rango de n para h[n]
-# m = np.arange(0, 5)
+m = np.arange(0, 50)
 
-# # Delta discreta
-# def delta(k):
-#     return np.array([1 if i == 0 else 0 for i in k])
+# Delta discreta
+def delta(k):
+    return np.array([1 if i == 0 else 0 for i in k])
 
-# # Respuesta impulsiva: h[n] = δ[n] - δ[n-4]
-# h = delta(m) - delta(m-4)
+# Respuesta impulsiva: h[n] = δ[n] - δ[n-4]
+h = delta(m) - delta(m-4)
 
-# # Convolución: y[n] = x[n] * h[n]
-# y1 = np.convolve(x1, h)
-# y2 = np.convolve(x2, h)
-# y3 = np.convolve(x3, h)
+# Convolución: y[n] = x[n] * h[n]
+y1 = np.convolve(x1, h)
+y2 = np.convolve(x2, h)
+y3 = np.convolve(x3, h)
 
-# # Nuevo eje temporal para la salida
-# ny = np.arange(n[0] + m[0], n[-1] + m[-1] + 1)
-# NY = len(ny)
+# Nuevo eje temporal para la salida
+ny = np.arange(n[0] + m[0], n[-1] + m[-1] + 1)
+NY = len(ny)
 
-# Y1_fft = np.abs(np.fft.fft(y1)) 
-# Y2_fft = np.abs(np.fft.fft(y2))
-# Y3_fft = np.abs(np.fft.fft(y3))
-# frecsLTI = np.arange(NY) * 1/Ts * 1/NY
+Y1_fft = np.abs(np.fft.fft(y1)) 
+Y2_fft = np.abs(np.fft.fft(y2))
+Y3_fft = np.abs(np.fft.fft(y3))
+frecsLTI = np.arange(NY) * (2* np.pi) / NY
+
 
 #%% GRAFS
 
-# plt.figure(figsize=(12,6))
+plt.figure(figsize=(12,6))
 
-# plt.subplot(3,1,1)
-# plt.plot(frecsLTI[:NY//2], 20*np.log10(Y1_fft[:NY//2]))
-# plt.title("FFT de y1[n]")
-# plt.xlabel("Frec [Hz]")
-# plt.ylabel("[dB]")
-# plt.grid(True)
+plt.subplot(3,1,1)
+plt.plot(frecsLTI[:NY//2], 20*np.log10(Y1_fft[:NY//2]))
+plt.title("FFT de y1[n]")
+plt.xlabel("W [rad/muestra]")
+plt.ylabel("[dB]")
+plt.grid(True)
 
-# plt.subplot(3,1,2)
-# plt.plot(frecsLTI[:NY//2], 20*np.log10(Y2_fft[:NY//2]))
-# plt.title("FFT de y2[n]")
-# plt.xlabel("Frec [Hz]")
-# plt.ylabel("[dB]")
-# plt.grid(True)
+plt.subplot(3,1,2)
+plt.plot(frecsLTI[:NY//2], 20*np.log10(Y2_fft[:NY//2]))
+plt.title("FFT de y2[n]")
+plt.xlabel("W [rad/muestra]")
+plt.ylabel("[dB]")
+plt.grid(True)
 
-# plt.subplot(3,1,3)
-# plt.plot(frecsLTI[:NY//2], 20*np.log10(Y3_fft[:NY//2]))
-# plt.title("FFT de y3[n]")
-# plt.xlabel("Frec [Hz]")
-# plt.ylabel("[dB]")
-# plt.grid(True)
+plt.subplot(3,1,3)
+plt.plot(frecsLTI[:NY//2], 20*np.log10(Y3_fft[:NY//2]))
+plt.title("FFT de y3[n]")
+plt.xlabel("W [rad/muestra]")
+plt.ylabel("[dB]")
+plt.grid(True)
 
-# plt.tight_layout()
-# plt.show()
+plt.tight_layout()
+plt.show()
